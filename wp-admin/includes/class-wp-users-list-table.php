@@ -374,11 +374,12 @@ class WP_Users_List_Table extends WP_List_Table {
 			'name'     => __( 'Name' ),
 			'email'    => __( 'Email' ),
 			'role'     => __( 'Role' ),
-			'gold'    => _x( 'Gold', 'post type general name' ),
+            'gold'     => _x( 'Gold', 'post type general name' ),
+            'posts'    => _x( 'Posts', 'post type general name' ),
 		);
 
 		if ( $this->is_site_users ) {
-			unset( $columns['gold'] );
+			unset( $columns['posts'] );
 		}
 
 		return $columns;
@@ -612,6 +613,8 @@ class WP_Users_List_Table extends WP_List_Table {
 							$row .= 0;
 						}
 						break;
+                    case 'gold':
+                        $row .= esc_html( $user_object->data->gold );
 					default:
 						/**
 						 * Filters the display output of custom columns in the Users list table.

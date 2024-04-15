@@ -1162,7 +1162,7 @@ final class WP_Screen {
 		<fieldset class="metabox-prefs">
 		<legend><?php echo $legend; ?></legend>
 		<?php
-		$special = array( '_title', 'cb', 'comment', 'media', 'name', 'title', 'username', 'blogname' );
+		$special = array( '_title', 'cb', 'comment', 'media', 'name', 'title', 'username', 'blogname' , 'gold' );
 
 		foreach ( $columns as $column => $title ) {
 			// Can't hide these for they are special.
