@@ -224,7 +224,7 @@ function apply_filters( $hook_name, $value, ...$args ) {
  * @param string $hook_name The name of the filter hook.
  * @param array  $args      The arguments supplied to the functions hooked to `$hook_name`.
  * @return mixed The filtered value after all hooked functions are applied to it.
-  */
+ */
 function apply_filters_ref_array( $hook_name, $args ) {
 	global $wp_filter, $wp_filters, $wp_current_filter;
 

@@ -9,6 +9,8 @@
 /wp-content/languages
 /wp-content/plugins/index.php
 /wp-content/themes/index.php
+/wp-includes/
+/wp-admin/
 /index.php
 /license.txt
 /readme.html
@@ -32,6 +34,20 @@ wp-config.php
 
 # htaccess
 /.htaccess
+
+#Custom core file in here, add more file
+!/wp-admin/user-edit.php
+!/wp-admin/includes/class-wp-screen.php
+!/wp-admin/includes/class-wp-users-list-table.php
+!/wp-admin/includes/schema.php
+!/wp-admin/includes/user.php
+
+!/wp-includes/admin-bar.php
+!/wp-includes/class-wp-user.php
+!/wp-includes/class-wp-xmlrpc-server.php
+!/wp-includes/user.php
+!/wp-includes/rest-api/endpoints/class-wp-rest-users-controller.php
+
 
 # All plugins
 #
