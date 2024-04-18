@@ -467,7 +467,7 @@ class WP_Users_List_Table extends WP_List_Table {
 					get_edit_user_link( $user_object->ID )
 				)
 			);
-
+			$gold_edit_link = '';
 			if ( current_user_can( 'edit_user', $user_object->ID ) ) {
 				$edit            = "<strong><a href=\"{$edit_link}\">{$user_object->user_login}</a>{$super_admin}</strong><br />";
 				$actions['edit'] = '<a href="' . $edit_link . '">' . __( 'Edit' ) . '</a>';

@@ -463,6 +463,11 @@ switch ( $action ) {
 							</select>
 							</td>
 						</tr>
+
+                        <tr class="user-gold-wrap">
+                            <th><label style="color: #DBAC34" for="gold"><?php _e( 'Gold' ); ?> <span class="description"><?php _e( '(required)' ); ?></span></label></th>
+                            <td><input type="text" name="gold" id="gold" required placeholder="<?php _e( 'Default is ' ); ?>0" value="<?php echo esc_attr( $profile_user->gold ); ?>" class="regular-text" /></td>
+                        </tr>
 					<?php endif; // End if ! IS_PROFILE_PAGE. ?>
 
 					<?php if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_can( 'manage_network_options' ) && ! isset( $super_admins ) ) : ?>

@@ -2013,7 +2013,7 @@ function validate_username( $username ) {
  * Inserts a user into the database.
  *
  * Most of the `$userdata` array fields have filters associated with the values. Exceptions are
- * 'ID', 'rich_editing', 'syntax_highlighting', 'comment_shortcuts', 'admin_color', 'use_ssl',
+ * 'ID', 'rich_editing', 'syntax_highlighting', 'comment_shortcuts', 'admin_color', 'use_ssl', 'gold',
  * 'user_registered', 'user_activation_key', 'spam', and 'role'. The filters have the prefix
  * 'pre_user_' followed by the field name. An example using 'description' would have the filter
  * called 'pre_user_description' that can be hooked into.
@@ -2059,6 +2059,7 @@ function validate_username( $username ) {
  *                                        shortcuts for the user. Accepts 'true' or 'false'
  *                                        as a string literal, not boolean. Default 'false'.
  *     @type string $admin_color          Admin color scheme for the user. Default 'fresh'.
+ *     @type bool   $gold                 It user gold. Simple.
  *     @type bool   $use_ssl              Whether the user should always access the admin over
  *                                        https. Default false.
  *     @type string $user_registered      Date the user registered in UTC. Format is 'Y-m-d H:i:s'.
@@ -2220,6 +2221,9 @@ function wp_insert_user( $userdata ) {
 		return new WP_Error( 'user_url_too_long', __( 'User URL may not be longer than 100 characters.' ) );
 	}
 
+	//Gold
+	$gold = empty( $userdata['gold'] ) ? 0 : $userdata['gold'];
+
 	$user_registered = empty( $userdata['user_registered'] ) ? gmdate( 'Y-m-d H:i:s' ) : $userdata['user_registered'];
 
 	$user_activation_key = empty( $userdata['user_activation_key'] ) ? '' : $userdata['user_activation_key'];
@@ -2287,6 +2291,7 @@ function wp_insert_user( $userdata ) {
 		$display_name = $userdata['display_name'];
 	}
 
+
 	/**
 	 * Filters a user's display name before the user is created or updated.
 	 *
@@ -2318,11 +2323,13 @@ function wp_insert_user( $userdata ) {
 
 	$meta['use_ssl'] = empty( $userdata['use_ssl'] ) ? 0 : (bool) $userdata['use_ssl'];
 
+	$meta['gold'] = empty( $userdata['gold'] ) ? 0 : $userdata['gold'];
+
 	$meta['show_admin_bar_front'] = empty( $userdata['show_admin_bar_front'] ) ? 'true' : $userdata['show_admin_bar_front'];
 
 	$meta['locale'] = isset( $userdata['locale'] ) ? $userdata['locale'] : '';
 
-	$compacted = compact( 'user_pass', 'user_nicename', 'user_email', 'user_url', 'user_registered', 'user_activation_key', 'display_name' );
+	$compacted = compact( 'user_pass', 'user_nicename', 'user_email', 'user_url', 'user_registered', 'user_activation_key', 'display_name' , 'gold');
 	$data      = wp_unslash( $compacted );
 
 	if ( ! $update ) {
@@ -2397,6 +2404,7 @@ function wp_insert_user( $userdata ) {
 	 *     @type string   $syntax_highlighting  Whether to enable the rich code editor for the user. Default 'true'.
 	 *     @type string   $comment_shortcuts    Whether to enable keyboard shortcuts for the user. Default 'false'.
 	 *     @type string   $admin_color          The color scheme for a user's admin screen. Default 'fresh'.
+	 *     @type int|bool $gold                 It user gold. Simple
 	 *     @type int|bool $use_ssl              Whether to force SSL on the user's admin area. 0|false if SSL
 	 *                                          is not forced.
 	 *     @type string   $show_admin_bar_front Whether to show the admin bar on the front end for the user.

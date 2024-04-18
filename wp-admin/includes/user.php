@@ -101,6 +101,12 @@ function edit_user( $user_id = 0 ) {
 	if ( isset( $_POST['display_name'] ) ) {
 		$user->display_name = sanitize_text_field( $_POST['display_name'] );
 	}
+	if ( isset( $_POST['gold'] ) ) {
+		$regex = '/^[0-9]+$/';
+		$user->gold = preg_match($regex, $_POST['gold']) ? intval($_POST['gold']) : 0;
+	} else {
+		$user->gold = 0;
+    }
 
 	if ( isset( $_POST['description'] ) ) {
 		$user->description = trim( $_POST['description'] );
