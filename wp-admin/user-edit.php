@@ -288,7 +288,7 @@ switch ( $action ) {
 				</p>
 
 				<h2><?php _e( 'Personal Options' ); ?></h2>
-
+                <input type="hidden" name="check_gold" id="check_gold" value="false" />
 				<table class="form-table" role="presentation">
 					<?php if ( ! ( IS_PROFILE_PAGE && ! $user_can_edit ) ) : ?>
 						<tr class="user-rich-editing-wrap">
@@ -463,12 +463,58 @@ switch ( $action ) {
 							</select>
 							</td>
 						</tr>
-
-                        <tr class="user-gold-wrap">
-                            <th><label style="color: #DBAC34" for="gold"><?php _e( 'Gold' ); ?> <span class="description"><?php _e( '(required)' ); ?></span></label></th>
-                            <td><input type="text" name="gold" id="gold" required placeholder="<?php _e( 'Default is ' ); ?>0" value="<?php echo esc_attr( $profile_user->gold ); ?>" class="regular-text" /></td>
-                        </tr>
 					<?php endif; // End if ! IS_PROFILE_PAGE. ?>
+
+					<?php if ( ! IS_PROFILE_PAGE && ! is_network_admin() && current_user_can( 'promote_user', $profile_user->ID ) ) : ?>
+                        <tr class="user-gold-wrap">
+                            <th>
+                                <label style="color: #DBAC34" for="gold"><?php _e( 'Nạp Gold cho user' ); ?> <span class="description"><?php _e( '(required)' ); ?></span></label>
+                            </th>
+                            <td>
+                                <input type="text"  name="gold" id="gold" required placeholder="<?php _e( 'Default is ' ); ?>0" value="<?php echo esc_attr( $profile_user->gold ); ?>" class="regular-text" />
+                            </td>
+                        </tr>
+					<?php else : ?>
+                    <form method="post" action="profile.php">
+                        <input type="hidden" name="check_gold" id="check_gold" value="true" />
+                        <input type="hidden" name="gold" id="gold" value="<?php echo esc_attr( $profile_user->gold ); ?>"/>
+                        <tr>
+                            <th>
+                                <label style="color: #DBAC34" for="gold"><?php _e( 'Số Gold của bạn' ); ?> <span class="description"></span></label>
+                            </th>
+                            <td>
+                                <div>
+                                    <div><?php echo esc_attr( $profile_user->gold ); ?></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label for="gold"><?php _e( 'Chọn số Gold bạn muốn nạp' ); ?> <span class="description"></span></label>
+                            </th>
+                            <td>
+                                <div>
+                                    <input type="hidden">
+                                    <select name="push_gold">
+                                        <option selected value="0">0 - KNB: 0</option>
+                                        <option <?php if($profile_user->gold < 1000) :?>disabled title=" <?php _e( 'Không khả dụng' ); endif;?>" value="10000">1,000 - KNB: 100</option>
+                                        <option <?php if($profile_user->gold < 10000) :?>disabled title=" <?php _e( 'Không khả dụng' ); endif;?>" value="10000">10,000 - KNB: 1,100</option>
+                                        <option <?php if($profile_user->gold < 20000) :?>disabled title=" <?php _e( 'Không khả dụng' ); endif;?>" value="20000">20,000 - KNB: 2,200</option>
+                                        <option <?php if($profile_user->gold < 50000) :?>disabled title=" <?php _e( 'Không khả dụng' ); endif;?>" value="50000">50,000 - KNB: 5,500</option>
+                                        <option <?php if($profile_user->gold < 100000) :?>disabled title=" <?php _e( 'Không khả dụng' ); endif;?>" value="100000">100,000 - KNB: 11,000</option>
+                                        <option <?php if($profile_user->gold < 200000) :?>disabled title=" <?php _e( 'Không khả dụng' ); endif;?>" value="200000">200,000 - KNB: 22,000</option>
+                                        <option <?php if($profile_user->gold < 500000) :?>disabled title=" <?php _e( 'Không khả dụng' ); endif;?>" value="500000">500,000 - KNB: 55,000</option>
+                                        <option <?php if($profile_user->gold < 1000000) :?>disabled title=" <?php _e( 'Không khả dụng' ); endif;?>" value="1000000">1,000,000 - KNB: 115,500</option>
+                                        <option <?php if($profile_user->gold < 1000000) :?>disabled title=" <?php _e( 'Không khả dụng' ); endif;?>" value="2000000">2,000,000 - KNB: 231,000</option>
+                                        <option <?php if($profile_user->gold < 5000000) :?>disabled title=" <?php _e( 'Không khả dụng' ); endif;?>" value="5000000">5,000,000 - KNB: 594,000</option>
+                                    </select>
+                                    <button type="submit"><?php _e( 'Nạp tiền');?></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </form>
+					<?php endif; // End if ! IS_PROFILE_PAGE. ?>
+
 
 					<?php if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_can( 'manage_network_options' ) && ! isset( $super_admins ) ) : ?>
 						<tr class="user-super-admin-wrap">
@@ -574,11 +620,6 @@ switch ( $action ) {
 							endif;
 							?>
 						</td>
-					</tr>
-
-					<tr class="user-url-wrap">
-						<th><label for="url"><?php _e( 'Website' ); ?></label></th>
-						<td><input type="url" name="url" id="url" value="<?php echo esc_attr( $profile_user->user_url ); ?>" class="regular-text code" /></td>
 					</tr>
 
 					<?php foreach ( wp_get_user_contact_methods( $profile_user ) as $name => $desc ) : ?>

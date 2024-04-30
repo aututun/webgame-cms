@@ -37,6 +37,7 @@ wp-config.php
 
 #Custom core file in here, add more file
 !/wp-admin/user-edit.php
+!wp-admin/profile.php
 !/wp-admin/includes/class-wp-screen.php
 !/wp-admin/includes/class-wp-users-list-table.php
 !/wp-admin/includes/schema.php
